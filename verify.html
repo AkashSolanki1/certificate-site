@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate Verification</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 { margin-bottom: 10px; }
+
+        .valid { color: green; font-weight: bold; }
+        .invalid { color: red; font-weight: bold; }
+
+        p { text-align: left; margin: 8px 0; }
+        .label { font-weight: bold; }
+
+        #loader { font-size: 16px; color: #555; }
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Certificate Verification</h2>
+
+    <div id="loader">Loading certificate...</div>
+
+    <h3 id="status"></h3>
+
+    <p><span class="label">Name:</span> <span id="name"></span></p>
+    <p><span class="label">Score:</span> <span id="score"></span>%</p>
+    <p><span class="label">Date:</span> <span id="date"></span></p>
+    <p><span class="label">Certificate ID:</span> <span id="cid"></span></p>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyDETQ1TEOwfssNt4jIRslNDy88f3z14KUo",
+  authDomain: "skillverify-594e5.firebaseapp.com",
+  databaseURL: "https://skillverify-594e5-default-rtdb.firebaseio.com",
+  projectId: "skillverify-594e5",
+  storageBucket: "skillverify-594e5.firebasestorage.app",
+  messagingSenderId: "658017096267",
+  appId: "1:658017096267:web:5c5a6bc8c7613018a833ce"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const loader = document.getElementById("loader");
+const statusEl = document.getElementById("status");
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("key");
+
+if (!id) {
+    loader.innerText = "";
+    statusEl.innerText = "Invalid Request ❌";
+    statusEl.className = "invalid";
+} else {
+
+    firebase.database().ref("certificates/" + id).once("value")
+    .then(snapshot => {
+
+        loader.style.display = "none";
+
+        if (!snapshot.exists()) {
+            statusEl.innerText = "Invalid Certificate ❌";
+            statusEl.className = "invalid";
+            return;
+        }
+
+        let cert = snapshot.val();
+
+        statusEl.innerText = "Valid Certificate ✔";
+        statusEl.className = "valid";
+
+        document.getElementById("name").innerText = cert.name || "-";
+        document.getElementById("score").innerText = cert.percentage || "0";
+        document.getElementById("cid").innerText = id;
+
+        let date = new Date(cert.issuedAt);
+        document.getElementById("date").innerText = date.toDateString();
+    })
+    .catch(error => {
+        loader.style.display = "none";
+        statusEl.innerText = "Error loading certificate ❌";
+        statusEl.className = "invalid";
+        console.error(error);
+    });
+}
+</script>
+
+</body>
+</html>
