@@ -10,7 +10,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: "Poppins", sans-serif;
         }
 
         body {
@@ -18,17 +18,26 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1);
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
         }
 
         .card {
             width: 360px;
             padding: 30px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             text-align: center;
+            color: #fff;
             animation: fadeIn 0.6s ease;
         }
 
@@ -38,60 +47,58 @@
         }
 
         .logo {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: bold;
-            color: #007bff;
             margin-bottom: 10px;
         }
 
         h2 {
             margin-bottom: 5px;
-            color: #333;
         }
 
         .subtitle {
             font-size: 14px;
-            color: #777;
             margin-bottom: 20px;
+            opacity: 0.8;
         }
 
         input {
             width: 100%;
             padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
+            border-radius: 10px;
+            border: none;
             font-size: 15px;
             margin-top: 10px;
-            transition: 0.3s;
+            outline: none;
+            background: rgba(255,255,255,0.8);
+            color: #333;
         }
 
-        input:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        input::placeholder {
+            color: #777;
         }
 
         button {
             width: 100%;
             margin-top: 15px;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             border: none;
             font-size: 16px;
             font-weight: bold;
             color: white;
-            background: linear-gradient(135deg, #007bff, #0056b3);
+            background: linear-gradient(135deg, #667eea, #764ba2);
             cursor: pointer;
             transition: 0.3s;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(0,123,255,0.4);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
 
         .error {
-            color: red;
+            color: #ffdddd;
             margin-top: 10px;
             font-size: 14px;
         }
@@ -99,7 +106,7 @@
         .footer {
             margin-top: 20px;
             font-size: 12px;
-            color: #999;
+            opacity: 0.7;
         }
 
     </style>
@@ -109,18 +116,18 @@
 
 <div class="card">
 
-    <div class="logo">CoursBit</div>
+    <div class="logo">✨ CoursBit</div>
 
     <h2>Verify Certificate</h2>
-    <p class="subtitle">Enter certificate ID to verify authenticity</p>
+    <p class="subtitle">Enter your certificate ID below</p>
 
-    <input type="text" id="certKey" placeholder="e.g. 1234-5678-9012-3456">
+    <input type="text" id="certKey" placeholder="1234-5678-9012-3456">
 
-    <button onclick="verifyCertificate()">Verify Now</button>
+    <button onclick="verifyCertificate()">Verify Now 🚀</button>
 
     <p class="error" id="error"></p>
 
-    <div class="footer">Secure Verification System</div>
+    <div class="footer">Secure & Trusted Verification</div>
 
 </div>
 
@@ -134,11 +141,10 @@ function verifyCertificate() {
         return;
     }
 
-    // Redirect to verification page
     window.location.href = "verify.html?key=" + key;
 }
 
-// Press Enter to verify
+// Enter key support
 document.getElementById("certKey").addEventListener("keypress", function(e) {
     if (e.key === "Enter") {
         verifyCertificate();
