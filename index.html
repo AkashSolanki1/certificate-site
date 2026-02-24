@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Certificate Verification Portal</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 350px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .error {
+            color: red;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+    <h2>Verify Certificate</h2>
+
+    <input type="text" id="certKey" placeholder="Enter Certificate ID">
+
+    <button onclick="verifyCertificate()">Verify</button>
+
+    <p class="error" id="error"></p>
+</div>
+
+<script>
+
+function verifyCertificate() {
+    const key = document.getElementById("certKey").value.trim();
+
+    if (!key) {
+        document.getElementById("error").innerText = "Please enter Certificate ID";
+        return;
+    }
+
+    // Redirect to verify page
+    window.location.href = "verify.html?key=" + key;
+}
+
+</script>
+
+</body>
+</html>
